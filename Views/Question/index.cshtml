@@ -1,0 +1,32 @@
+@model Tbl_Category
+<div class="row">
+    @* check andshow TempData Error *@
+    @if(ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+          @ViewBag.Error
+            </div>
+    }
+    
+
+                <div class="col-12  mx-auto">
+                    <div class="card card-light shadow-sm mb-4">
+                        <div class="card-body">
+                            <form action="/question/addCategory" class="row" method="post">
+                                
+                                <div class="form-floating mb-3 col-4">
+                                    <input Required type="text" class="form-control" asp-for="Name"  placeholder="Name of the questionnaire" >
+                                    <label for="username">Name of the questionnaire</label>
+                                </div>
+                                <div class="form-floating mb-3 col-2">
+                                        <div class="d-grid"><button type="submit" class="btn btn-lg btn-primary shadow-sm">Next</button></div>
+                            </form>
+                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+

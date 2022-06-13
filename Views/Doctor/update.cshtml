@@ -1,0 +1,72 @@
+@model Tbl_Doctor
+<div class="row">
+                <div class="col-12  mx-auto">
+                    <div class="card card-light shadow-sm mb-4">
+                        <div class="card-body">
+                            <form action="/doctor/up" class="row" method="post">
+                             <div class="form-floating mb-3 col-4" style="display: none;">
+                                    <input Required type="text" class="form-control" asp-for="Id"  placeholder="Name" >
+                                    <label for="username">Name</label>
+                                </div>
+                                
+                                <div class="form-floating mb-3 col-4">
+                                    <input Required type="text" class="form-control" asp-for="Name"  placeholder="Name" >
+                                    <label for="username">Name</label>
+                                </div>
+                                 <div class="form-floating mb-3 col-4">
+                                    <input Required type="text" class="form-control" asp-for="Family"  placeholder="family" >
+                                    <label for="username">Family</label>
+                                </div>
+
+                                <div class="form-floating mb-3 col-4">
+                                    <select class="form-select" asp-for="Gender">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        
+                                    </select>
+                                    <label for="select">Gender</label>
+                                </div>
+
+                                
+                                <div class="form-floating mb-3 col-4">
+                                    <select class="form-select" asp-for="States">
+                                        <option value="California">California</option>
+                                        <option value="San Jose">San Jose</option>
+                                        <option value="New York">New York</option>
+                                    </select>
+                                    <label for="select2">States</label>
+                                </div>
+
+                                <div class="form-floating mb-3 col-4">
+                                    <input Required type="text" class="form-control" asp-for="City" placeholder="City" >
+                                    <label for="city">City</label>
+                                </div>
+                                <div class="form-floating mb-3 col-4">
+                                    <input Required type="text" class="form-control" asp-for="Street" placeholder="Street" >
+                                    <label for="city">Street</label>
+                                </div>
+                                <div class="form-floating mb-3 col-4">
+                                    <input Required type="text" class="form-control" asp-for="Phone" placeholder="Phone" >
+                                    <label for="city">Phone</label>
+                                </div>
+
+                                <div class="form-floating mb-3 col-4">
+                                    <input Required type="text" class="form-control" asp-for="Email" placeholder="Email" >
+                                    <label for="city">Email</label>
+                                </div>
+
+                                <div class="form-floating mb-3 col-4">
+                                    <input Required type="text" class="form-control" asp-for="Password" placeholder="Password" >
+                                    <label for="city">Password</label>
+                                </div>
+                                        <div class="d-grid"><button type="submit" class="btn btn-lg btn-primary shadow-sm">Add/Update</button></div>
+                            </form>
+                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+

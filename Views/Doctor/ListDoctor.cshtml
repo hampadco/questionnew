@@ -1,0 +1,50 @@
+@model List<Tbl_Doctor>
+<style>
+    tr{
+        text-align: center;
+    }
+    tr:nth-child(odd)
+    {
+        background-color: whitesmoke;
+    }
+</style>
+<table class="table " style="width: 100%;border: 0.1px solid whitesmoke;border-radius: 20px;background-color: white;">
+
+
+    <tr>
+        <th>Row</th>
+        <th>Name</th>
+        <th>Family</th>
+        <th>Gender</th>
+        <th>State</th>
+        <th>City</th>
+        <th>Pass</th>
+        <th>Email</th>
+        <th>Proccess</th>
+    </tr>
+    @{
+        int i=1;
+
+    @foreach (var item in Model)
+    {
+         <tr>
+        <td>@i</td>
+        <td>@item.Name</td>
+        <td>@item.Family</td>
+        <td>@item.Gender</td>
+        <td>@item.States</td>
+        <td>@item.City</td>
+        <td>@item.Password</td>
+        <td>@item.Email</td>
+        <td>
+            <a href="/doctor/update/@item.Id">Update</a>
+            |
+            <a href="/doctor/del/@item.Id" onclick="return confirm('Are you sure you want to delete the item?')">Delete</a>
+        </td>
+    </tr>
+    }
+}
+   
+     
+
+</table>

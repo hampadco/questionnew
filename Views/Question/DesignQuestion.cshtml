@@ -1,0 +1,655 @@
+@model Tbl_Question
+<style>
+    input{
+        border: 1px solid black !important;
+    }
+</style>
+@* Question *@
+<div class="card p-3">
+
+    <div class="row">
+        <p class="alert alert-primary p-3">Title Question : @ViewBag.LastName</p>
+    </div>
+    <div class="card p-3">
+    <div class="row ">
+        @if (ViewBag.listquestion != null)
+        {
+            <div class="row alert alert-light">
+
+            @foreach (var item in ViewBag.listquestion)
+                {
+                    @if (item.ParentId==0)
+                    {
+                        
+                    
+                     <div class="col-6">
+                          @if (item.Request==true)
+                       {
+                                            <p class="mt-3" >@item.Question_Number . @item.Question  <span style="color:red;font-size:30px ;margin-top: 5px;">*</span></p>
+
+                       }else{
+                          <p class="mt-3" >@item.Question_Number . @item.Question <span style="color:red;font-size:30px ;margin-top: 5px;"></span></p>
+
+                       }
+
+                    @if (item.Question_Type=="integer")
+                    {
+                     
+                        <input type="number" class="form-control" placeholder="please enter just number">
+                    }
+                    else if(item.Question_Type=="string")
+                    {
+                      <input type="text" class="form-control" placeholder="">
+
+                    }
+                     else if(item.Question_Type=="Date")
+                    {
+                        <input type="datetime-local" data-provide="datepicker" class="form-control">
+
+
+                    }
+                    
+                     else if(item.Question_Type=="File")
+                    {
+                           <input type="file" class="form-control" placeholder="file">
+
+                    }
+                     else if(item.Question_Type=="singlechoice")
+                    {
+                        @if (ViewBag.listchoices !=null)
+                        {
+                            @foreach (var item2 in  ViewBag.listchoices)
+                                {
+                    
+                                    if (item.Id==item2.NumberQuestion)
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio"  name="single" value="true" style="width:20px ;height: 20px;">
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                @item2.ItemName
+                                                @if (item2.SubquestionId==0)
+                                                {
+                                                    <a onclick="sub(@item2.Id,@item.Question_Number,'@item2.ItemName')" style="margin-left:20px ;text-decoration: none;  color:blue" >AddSub</a>
+                                                }else
+                                                {
+                                                     <a id="@item.Question_Number" onclick="show(@item2.Id)" style="margin-left:8px ;text-decoration: none;color:green">ShowSub</a>
+                                                       
+                                                   @* 8888888888888888888888888888888888888888888888888888888888888888888 *@
+                                                   <div id="@item2.Id" style="display: none;">
+
+                                                      
+                                                            <div class="row alert alert-light form-control" style="border:1px solid black ;border-radius:10px ;margin:10px ;">
+
+                                                            @foreach (var q in ViewBag.listquestion)
+                                                                {
+                                                                    @if (q.ParentId ==item2.Id )
+                                                                    {
+                                                                        
+                                                                    
+                                                                    <div class="col-12 form-control">
+                                                                        @if (q.Request==true)
+                                                                    {
+                                                                                            <p class="" >*  @q.Question  <span style="color:red;font-size:30px ;margin-top: 5px;">*</span></p>
+
+                                                                    }else{
+                                                                        <p class="" >* @q.Question <span style="color:red;font-size:30px ;margin-top: 5px;"></span></p>
+
+                                                                    }
+
+                                                                    @if (q.Question_Type=="integer")
+                                                                    {
+                                                                    
+                                                                        <input type="number" class="form-control" placeholder="please enter just number">
+                                                                    }
+                                                                    else if(q.Question_Type=="string")
+                                                                    {
+                                                                    <input type="text" class="form-control" placeholder="">
+
+                                                                    }
+                                                                    else if(q.Question_Type=="Date")
+                                                                    {
+                                                                        <input type="datetime-local" data-provide="datepicker" class="form-control">
+
+
+                                                                    }
+                                                                    
+                                                                    else if(q.Question_Type=="File")
+                                                                    {
+                                                                        <input type="file" class="form-control" placeholder="file">
+
+                                                                    }
+                                                                    else if(q.Question_Type=="singlechoice")
+                                                                    {
+                                                                        @if (ViewBag.listchoices !=null)
+                                                                        {
+                                                                            @foreach (var item4 in  ViewBag.listchoices)
+                                                                                {
+                                                                    
+                                                                                    if (q.Id==item4.NumberQuestion)
+                                                                                    {
+                                                                                        <div class="form-check">
+                                                                                            <input class="form-check-input" type="radio"  name="single" value="true" style="width:20px ;height: 20px;">
+                                                                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                                                                @item4.ItemName
+                                                                                               
+                                                                                            </label>
+                                                                                            </div>
+                                                                                    }
+                                                                                }
+                                                                            
+                                                                        }
+                                                                        
+                                                                        
+
+                                                                    }
+                                                                    else if(q.Question_Type=="multiplechoice")
+                                                                    {
+                                                                        @if (ViewBag.listchoices !=null)
+                                                                        {
+                                                                            @foreach (var item4 in  ViewBag.listchoices)
+                                                                                {
+                                                                    
+                                                                                    if (q.Id==item4.NumberQuestion)
+                                                                                    {
+                                                                                        <div class="form-check">
+                                                                                            <input class="form-check-input" type="checkbox"  name="" value="" style="width:20px ;height: 20px;">
+                                                                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                                                            @item4.ItemName
+                                                                                               
+                                                                                            </label>
+                                                                                            </div>
+                                                                                    }
+                                                                                }
+                                                                            
+                                                                        }
+                                                                        
+                                                                        
+
+                                                                    }
+                                                                    </div>
+                                                                }
+                                                                }
+                                                                </div>
+                                                        
+                                                                                                        
+
+                                                                                                </div>
+
+
+
+
+
+                                                  @* 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888 *@
+
+                                                }
+                                            </label>
+                                            </div>
+                                    }
+                                }
+                            
+                        }
+                        
+                           
+
+                    }
+                     else if(item.Question_Type=="multiplechoice")
+                    {
+                        @if (ViewBag.listchoices !=null)
+                        {
+                            @foreach (var item2 in  ViewBag.listchoices)
+                                {
+                    
+                                    if (item.Id==item2.NumberQuestion)
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"  name="" value="" style="width:20px ;height: 20px;">
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                               @item2.ItemName
+                                                @if (item2.SubquestionId==0)
+                                                {
+                                                    <a onclick="sub(@item2.Id,@item.Question_Number,'@item2.ItemName')" style="margin-left:20px ;text-decoration: none;  color:blue" >AddSub</a>
+                                                }else
+                                                {
+                                                                                           <a id="@item.Question_Number" onclick="show(@item2.Id)" style="margin-left:8px ;text-decoration: none;color:green">ShowSub</a>
+                                                       
+                                                   @* 8888888888888888888888888888888888888888888888888888888888888888888 *@
+                                                   <div id="@item2.Id" style="display: none;">
+
+                                                      
+                                                            <div class="row alert alert-light form-control" style="border:1px solid black ;border-radius:10px ;margin:10px ;">
+
+                                                            @foreach (var q in ViewBag.listquestion)
+                                                                {
+                                                                    @if (q.ParentId ==item2.Id )
+                                                                    {
+                                                                        
+                                                                    
+                                                                    <div class="col-12 form-control">
+                                                                        @if (q.Request==true)
+                                                                    {
+                                                                                            <p class="" >*  @q.Question  <span style="color:red;font-size:30px ;margin-top: 5px;">*</span></p>
+
+                                                                    }else{
+                                                                        <p class="" >* @q.Question <span style="color:red;font-size:30px ;margin-top: 5px;"></span></p>
+
+                                                                    }
+
+                                                                    @if (q.Question_Type=="integer")
+                                                                    {
+                                                                    
+                                                                        <input type="number" class="form-control" placeholder="please enter just number">
+                                                                    }
+                                                                    else if(q.Question_Type=="string")
+                                                                    {
+                                                                    <input type="text" class="form-control" placeholder="">
+
+                                                                    }
+                                                                    else if(q.Question_Type=="Date")
+                                                                    {
+                                                                        <input type="datetime-local" data-provide="datepicker" class="form-control">
+
+
+                                                                    }
+                                                                    
+                                                                    else if(q.Question_Type=="File")
+                                                                    {
+                                                                        <input type="file" class="form-control" placeholder="file">
+
+                                                                    }
+                                                                    else if(q.Question_Type=="singlechoice")
+                                                                    {
+                                                                        @if (ViewBag.listchoices !=null)
+                                                                        {
+                                                                            @foreach (var item4 in  ViewBag.listchoices)
+                                                                                {
+                                                                    
+                                                                                    if (q.Id==item4.NumberQuestion)
+                                                                                    {
+                                                                                        <div class="form-check">
+                                                                                            <input class="form-check-input" type="radio"  name="single" value="true" style="width:20px ;height: 20px;">
+                                                                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                                                                @item4.ItemName
+                                                                                               
+                                                                                            </label>
+                                                                                            </div>
+                                                                                    }
+                                                                                }
+                                                                            
+                                                                        }
+                                                                        
+                                                                        
+
+                                                                    }
+                                                                    else if(q.Question_Type=="multiplechoice")
+                                                                    {
+                                                                        @if (ViewBag.listchoices !=null)
+                                                                        {
+                                                                            @foreach (var item4 in  ViewBag.listchoices)
+                                                                                {
+                                                                    
+                                                                                    if (q.Id==item4.NumberQuestion)
+                                                                                    {
+                                                                                        <div class="form-check">
+                                                                                            <input class="form-check-input" type="checkbox"  name="" value="" style="width:20px ;height: 20px;">
+                                                                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                                                            @item4.ItemName
+                                                                                               
+                                                                                            </label>
+                                                                                            </div>
+                                                                                    }
+                                                                                }
+                                                                            
+                                                                        }
+                                                                        
+                                                                        
+
+                                                                    }
+                                                                    </div>
+                                                                }
+                                                                }
+                                                                </div>
+                                                        
+                                                                                                        
+
+                                                                                                </div>
+
+
+
+
+
+                                                  @* 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888 *@
+                                                }
+                                            </label>
+                                            </div>
+                                    }
+                                }
+                            
+                        }
+                        
+                           
+
+                    }
+                    </div>
+                }
+                }
+                </div>
+        }
+        
+
+      </div>
+</div>
+       
+<hr>
+ <div class="row" id="so">
+    @* create four div class col-4 *@
+    <p class="alert alert-primary text-center" id="msg" style="display: none;"></p>
+    <div class="col-4">
+        <div class="form-group">
+            <button onclick="show('text')" class="alert alert-seconadry form-control btn btn-success">Add Short & Long Answer</button>
+        </div>
+     </div>
+
+     <div class="col-4">
+        <div class="form-group">
+            <button onclick="show('single')" class="alert alert-seconadry form-control btn btn-success">Add Single Choice</button>
+        </div>
+     </div>
+
+    <div class="col-4">
+        <div class="form-group">
+            <button onclick="show('multi')" class="alert alert-seconadry form-control btn btn-success">Add Multiple Choice</button>
+        </div>
+     </div>
+
+
+
+
+ </div>  
+
+
+    <div id="text" class="row justify-content-center p-3" style="direction: ltr; display: none;">
+       
+            <h3  class="p-1 " style="text-align:left ;">Title Question</h3>
+       
+      <form action="/question/addtext" method="post" class="row">
+
+       
+            <textarea asp-for="Question" required  cols="6" rows="2" class="text-center p-3" ></textarea>
+
+                <hr>
+            <div class="col-12 mt-1 alert alert-light">
+
+                
+                <div class="form-check">
+                <input class="form-check-input" type="radio"  asp-for="Request" value="true" style="width:20px ;height: 20px;">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Required
+                </label>
+                </div>
+                
+
+            </div>
+
+              
+        
+            
+
+            <div class="col-12 mt-1 alert alert-light ">
+            <label for="" style="margin-right:10px;">Type Answer: </label>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio"  asp-for="Question_Type" value="string" checked style="width:20px ;height: 20px;">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    string
+                </label>
+             </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio"  asp-for="Question_Type" value="integer" style="width:20px ;height: 20px;">
+                <label class="form-check-label" for="flexRadioDefault1">
+                   integer
+                </label>
+             </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio"  asp-for="Question_Type" value="Date" style="width:20px ;height: 20px;">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Date
+                </label>
+             </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio" asp-for="Question_Type" value="File" style="width:20px ;height: 20px;">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    File
+                </label>
+             </div>
+
+
+
+
+
+
+
+
+                    </div>
+
+           
+
+
+            <div class="col-3 mt-3">
+                <button type="submit" class="btn btn-primary form-control ">Save</button>
+            </div>
+
+        </form>
+
+
+
+        
+    </div>
+
+  
+    <div id="single" class="row justify-content-center p-3" style="direction: ltr; display: none;">
+       
+            <h3  class="p-1 " style="text-align:left ;">Title Question</h3>
+       
+
+        <form action="/question/addchoice" method="post" class="row">
+
+        
+            <textarea asp-for="Question"  required  cols="6" rows="2" class="text-center p-3" ></textarea>
+
+               
+            <div class="col-12 mt-1 alert alert-light ">
+
+                <div class="form-check">
+                <input class="form-check-input" type="radio"  asp-for="Request" value="true" style="width:20px ;height: 20px;">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Required
+                </label>
+                </div>
+               
+
+            </div>
+        <input asp-for="Question_Type" type="text" value="singlechoice" style="display: none;">
+
+           
+            <div id="dv" class="col-12  alert alert-light " style="text-align: left;">
+            
+
+            </div>
+
+            <input type="text" name="listitem" id="listitem" style="display:none;">
+
+            <div class="row  text-center justify-content-center alert alert-light">
+
+
+                <div class="col-3">
+                      <input id="it"  type="text" class="form-control"> 
+
+
+                </div>
+                <div class="col-3">
+                     <a onclick="add()" class="btn btn-primary form-control">Add Item</a>
+                </div>
+
+            
+            </div>
+
+            
+
+
+            <div class="col-3 mt-3">
+                <button type="submit" class="btn btn-primary form-control ">Save</button>
+            </div>
+
+        </form>
+
+
+
+        
+    </div>
+
+    
+    <div id="multi" class="row justify-content-center p-3" style="direction: ltr; display: none;">
+       
+          <h3  class="p-1 " style="text-align:left ;">Title Question</h3>
+       
+
+        <form action="/question/addcheckbox" method="post" class="row">
+
+        
+            <textarea asp-for="Question"  required  cols="6" rows="2" class="text-center p-3" ></textarea>
+
+               
+            <div class="col-12 mt-1 alert alert-light ">
+
+                <div class="form-check">
+                <input class="form-check-input" type="radio"  asp-for="Request" value="true" style="width:20px ;height: 20px;">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Required
+                </label>
+                </div>
+               
+
+            </div>
+        <input asp-for="Question_Type" type="text" value="multiplechoice" style="display: none;">
+
+           
+            <div id="dvcheckbox" class="col-12  alert alert-light " style="text-align: left;">
+            
+
+            </div>
+
+            <input type="text" name="listitemcheckbox" id="listitemcheckbox" style="display:none;">
+
+            <div class="row  text-center justify-content-center alert alert-light">
+
+
+                <div class="col-3">
+                      <input id="itcheckbox"  type="text" class="form-control"> 
+
+
+                </div>
+                <div class="col-3">
+                     <a onclick="addcheckbox()" class="btn btn-primary form-control">Add Item</a>
+                </div>
+
+            
+            </div>
+
+            
+
+
+            <div class="col-3 mt-3">
+                <button type="submit" class="btn btn-primary form-control ">Save</button>
+            </div>
+
+        </form>
+
+
+
+        
+    </div>
+
+</div>
+
+<script>
+// for show and hide divs for button click
+function show(divId) {
+    //show the div with the id passed and hide all others
+    window.location.href = "#"+divId+"";
+    document.getElementById("single").style.display = "none";
+    document.getElementById("multi").style.display = "none";
+    document.getElementById("text").style.display = "none";
+    document.getElementById(divId).style.display = "block";
+
+
+  
+    
+
+}
+
+function add()
+{
+    
+    if(document.getElementById("it").value != "" && document.getElementById("it").value != null )
+    {
+     var it = document.getElementById("it").value;
+     document.getElementById("listitem").value= document.getElementById("listitem").value+","+it;
+     var t='<div class="form-check"><input class="form-check-input" type="radio"  style="width:20px ;height: 20px;"> <label class="form-check-label" for="flexRadioDefault1">'+it+'</label></div><br>';
+     document.getElementById("dv").innerHTML=document.getElementById("dv").innerHTML+t;
+     document.getElementById("it").value=""
+   }
+ }
+
+ function addcheckbox()
+{
+    debugger
+    if(document.getElementById("itcheckbox").value != "" && document.getElementById("itcheckbox").value != null )
+    {
+     var itcheckbox = document.getElementById("itcheckbox").value;
+     document.getElementById("listitemcheckbox").value= document.getElementById("listitemcheckbox").value+","+itcheckbox;
+     var t='<div class="form-check"><input class="form-check-input" type="checkbox"  style="width:20px ;height: 20px;"> <label class="form-check-label" for="flexRadioDefault1">'+itcheckbox+'</label></div><br>';
+     document.getElementById("dvcheckbox").innerHTML=document.getElementById("dvcheckbox").innerHTML+t;
+     document.getElementById("itcheckbox").value=""
+   }
+ }
+
+
+ 
+function sub(id,number,name)
+{
+    debugger
+    $.ajax({
+            type: 'POST',
+            url: '/question/selectsub/'+id,
+            
+           
+                      
+        })
+
+       window.location.href="#so";
+       document.getElementById("msg").innerText="Add Sub Question For Question No."+number +" item.  "+name;
+       document.getElementById("msg").style.display = "block";
+}
+
+function show(id,number)
+{
+    //IF S CLOSE IN DISPLAY NONE ELSE DISPLAY BLOCK
+
+    if(document.getElementById(id).style.display == "none")
+    {
+        document.getElementById(id).style.display = "block";
+         document.getElementById(numbre).innerText="Close";
+    }
+    else
+    {
+        document.getElementById(id).style.display = "none";
+        document.getElementById(number).innerText="Show Sub";
+    }
+    
+   
+
+}
+</script>
